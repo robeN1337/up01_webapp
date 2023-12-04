@@ -1,3 +1,5 @@
+
+
 namespace SampleApp
 {
     public class Program
@@ -8,6 +10,10 @@ namespace SampleApp
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            #if DEBUG
+            builder.Services.AddSassCompiler();
+            #endif
+
 
             var app = builder.Build();
 
