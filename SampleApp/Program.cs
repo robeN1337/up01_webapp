@@ -1,5 +1,8 @@
 
 
+using Microsoft.EntityFrameworkCore;
+using SampleApp.Models;
+
 namespace SampleApp
 {
     public class Program
@@ -13,6 +16,14 @@ namespace SampleApp
             #if DEBUG
             builder.Services.AddSassCompiler();
             #endif
+            
+            builder.Services.AddFlashes();
+
+
+            // Подключение базы данных SQL Server
+            string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<SampleAppContext>(options => options.UseSqlServer(connection));
+            //builder.Services.AddDbContext<SampleAppContext>(options => options.UseNpgsql(connection));
 
 
             var app = builder.Build();
