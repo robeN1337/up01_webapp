@@ -1,6 +1,7 @@
 using Core.Flash;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SampleApp.Application;
 using SampleApp.Models;
 
 namespace SampleApp.Pages
@@ -24,6 +25,21 @@ namespace SampleApp.Pages
 
         public IActionResult OnPost(User user)
         {
+
+            if(!user.IsPasswordConfirmation())
+            {
+                _logger.LogWarning($"Пароли должны совпадать!");
+                _f.Flash(Types.Danger, "При создании пользователя возникла ошибка: пароли должны совпадать!", dismissable: true);
+                return Page();
+            }
+
+            
+            if (!user.IsEmailUnique())
+            {
+                _logger.LogWarning("Указанная почта уже существует.");
+                _f.Flash(Types.Warning, "Указанная почта уже существует.", dismissable: true);
+                return Page();
+            }
 
             try
             {

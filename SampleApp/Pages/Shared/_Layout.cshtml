@@ -23,19 +23,10 @@
     
     <div class="container body-content">
         <main>
+            <div flashes></div>
             @RenderBody()
         </main>
     </div>
-
-    <div class="container body-content">
-
-        <div flashes></div>
-
-        @RenderBody()
-
-    </div>
-
-
 
 
     @await Html.PartialAsync("_Footer")

@@ -1,0 +1,27 @@
+﻿@page
+@model SampleApp.Pages.UsersModel
+@{
+}
+
+
+<h2>Пользователи</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>
+                    @user.Name
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
