@@ -2,11 +2,24 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    var sessionId = HttpContext.Session.GetString("SampleSession");
 }
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <a class="btn btn-lg btn-primary" href="/Sign">Регистрация</a>
-    <a class="btn btn-lg btn-warning" asp-page="/Auth" asp-page-handler="Logout">Выйти</a>
+    @{
+        if(sessionId == null)
+        {
+            <a class="btn btn-lg btn-primary" href="/Sign">Регистрация</a>
+            <p></p>
+        }
+        else
+        {
+            <a class="btn btn-lg btn-warning" asp-page="/Auth" asp-page-handler="Logout">Выйти</a>
+            <p></p>
+        }
+    }
+    
     
 </div>

@@ -18,8 +18,6 @@ namespace SampleApp.Pages
             _f = f;
         }
 
-        
-
         public void OnGet()
         {
         }
