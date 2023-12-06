@@ -29,7 +29,7 @@ namespace SampleApp.Pages
 
         public IActionResult OnPost()
         {
-            User current_user = _db.Users.Where(u => u.Email == Input.Email && u.Password == Input.Password).FirstOrDefault<User>();
+            User current_user = _db.Users.Where(u => u.Email == Input.Email && u.Password == Input.Password).FirstOrDefault();
             if (current_user != null)
             {
                 HttpContext.Session.SetString("SampleSession", $"{current_user.Id}");
