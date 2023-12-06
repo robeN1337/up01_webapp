@@ -20,6 +20,13 @@ namespace SampleApp
             builder.Services.AddFlashes();
 
 
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = "SampleSession";
+                //options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.IsEssential = true;
+            });
+
             // Подключение базы данных SQL Server
             string connection = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddDbContext<SampleAppContext>(options => options.UseSqlServer(connection));
@@ -42,7 +49,7 @@ namespace SampleApp
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseSession();
             app.MapRazorPages();
 
             app.Run();
