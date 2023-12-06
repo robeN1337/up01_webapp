@@ -46,7 +46,11 @@ namespace SampleApp.Pages
         public IActionResult OnGetLogout()
         {
             // сброс сессии
+            
             HttpContext.Session.Clear();
+            HttpContext.Session.Remove("SampleSession");
+            Response.Cookies.Delete("SampleSession");
+            _f.Flash(Types.Success, $"Данные очищены!", dismissable: true);
             return RedirectToPage("Auth");
         }
     }

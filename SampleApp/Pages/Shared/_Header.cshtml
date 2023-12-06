@@ -1,13 +1,29 @@
-﻿<header class="navbar navbar-fixed-top navbar-inverse">
+﻿@{
+    var sessionId = Context.Session.GetString("SampleSession");
+}
+
+<header class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
         <a href="/" id="logo">Sample</a>
 
         <nav>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/">Home</a></li>
-                <li><a href="/Help">Help</a></li>
-                <li><a href="/About">About</a></li>
+                
+
                 <li><a href="/Users">Users</a></li>
+                <li><a href="/Auth">Authentification</a></li>
+                <li class="dropdown">
+                    <a href="Profile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Профиль<span class="caret"></span></a>
+
+                    <ul class="dropdown-menu">
+
+                        <li><a href="#">Профиль</a></li>
+                        <li><a href="#">Обновление</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Выход</a></li>
+
+                    </ul>
+                </li>
             </ul>
         </nav>
     </div>
