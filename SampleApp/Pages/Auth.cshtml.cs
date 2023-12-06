@@ -49,7 +49,7 @@ namespace SampleApp.Pages
             HttpContext.Session.Remove("SampleSession");
             Response.Cookies.Delete("SampleSession");
             _f.Flash(Types.Success, $"Данные очищены!", dismissable: true);
-            return RedirectToPage("Auth");
+            return RedirectToPage("Index");
         }
     }
 }

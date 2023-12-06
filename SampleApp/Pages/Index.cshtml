@@ -1,21 +1,26 @@
 ﻿@page
 @model IndexModel
 @{
+    @using SampleApp.Models
     ViewData["Title"] = "Home page";
     var sessionId = HttpContext.Session.GetString("SampleSession");
+    SampleAppContext _db = new SampleAppContext();
 }
 
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    
     @{
+        User current_user = _db.Users.Where(u => u.Id == Convert.ToInt32(sessionId)).FirstOrDefault();
         if(sessionId == null)
         {
+            <h1 class="display-4">Добро пожаловать, анон!</h1>
             <a class="btn btn-lg btn-primary" href="/Sign">Регистрация</a>
             <p></p>
         }
         else
         {
+            <h1 class="display-4">Добро пожаловать, @current_user.Name!</h1>
             <a class="btn btn-lg btn-warning" asp-page="/Auth" asp-page-handler="Logout">Выйти</a>
             <p></p>
         }

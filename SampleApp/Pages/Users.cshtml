@@ -1,33 +1,53 @@
 ﻿@page
 @model SampleApp.Pages.UsersModel
+
 @{
+    @using SampleApp.Models
+    ViewData["Title"] = "Users";
+    var sessionId = HttpContext.Session.GetString("SampleSession");
+    SampleAppContext _db = new SampleAppContext();
 }
 
+@{
+    User current_user = _db.Users.Where(u => u.Id == Convert.ToInt32(sessionId)).FirstOrDefault();
 
-<h2>Пользователи</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Users[0].Name)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.Users)
+    if (sessionId == null)
         {
-            <tr>
-                <td>
-                    @user.Id
-                </td>
-                <td>
-                    @user.Name
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <h1>Сначала залогиньтесь!</h1>
+    }
+
+    else if (current_user.IsAdmin == true)
+    {
+        <h2>Пользователи</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Users[0].Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Users[0].Name)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>
+                            @user.Id
+                        </td>
+                        <td>
+                            @user.Name
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h2>Недостаточно прав.</h2>
+    }
+}
