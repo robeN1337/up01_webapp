@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using SampleApp.Models;
 using System.IO;
 
 
@@ -12,7 +13,7 @@ namespace SampleApp.Test
         private IWebDriver driver;
         private const string LOGIN = "robbz";
         private const string PASSWORD = "1111";
-        private string EMAIL;
+        private string EMAIL = "lolol@git";
         private const string PASSWORD_CONFIRMATION = "1111";
 
         [SetUp]
@@ -35,23 +36,31 @@ namespace SampleApp.Test
         }
 
         [Test]
-        public void PasswordConfirmationEqualTest()
+        public void FullRegistrationTest_Automatic()
         {
-            Random random = new Random();
-            string s = "",
             IWebElement userNameElement = driver.FindElement(By.Id("user-name"));
+            IWebElement emailElement = driver.FindElement(By.Id("email"));
             IWebElement passwordElement = driver.FindElement(By.Id("password"));
+            IWebElement password_confirmationElement = driver.FindElement(By.Id("password-confirmation"));
             IWebElement registerBtn = driver.FindElement(By.Id("submit-btn"));
 
             userNameElement.SendKeys(LOGIN);
+            emailElement.SendKeys(EMAIL);
             passwordElement.SendKeys(PASSWORD);
+            password_confirmationElement.SendKeys(PASSWORD_CONFIRMATION);
             registerBtn.Click();
             System.Threading.Thread.Sleep(2000);
+
+        }
+
+        [Test]
+        public void PasswordConfirmationTest()
+        {
+           
+
             
 
-
-
-
+            System.Threading.Thread.Sleep(2000);
         }
     }
 }
