@@ -50,7 +50,6 @@ namespace SampleApp.Test
             password_confirmationElement.SendKeys(PASSWORD_CONFIRMATION);
             registerBtn.Click();
             System.Threading.Thread.Sleep(2000);
-
         }
 
         [Test]
