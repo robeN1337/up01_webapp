@@ -20,6 +20,7 @@ namespace SampleApp.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
+
             Users = await _db.Users.ToListAsync();
             return Page();
         }
