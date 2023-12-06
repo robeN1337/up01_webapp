@@ -27,7 +27,7 @@ namespace SampleApp.Pages
 
         public IActionResult OnPost()
         {
-            User current_user = _db.Users.Where(u => u.Email == Input.Email && u.Password == Input.HashPassword(Input.Password)).FirstOrDefault<User>() as User;
+            User current_user = _db.Users.Where(u => u.Email == Input.Email && u.Password == Input.Password).FirstOrDefault<User>();
             if (current_user != null)
             {
 
