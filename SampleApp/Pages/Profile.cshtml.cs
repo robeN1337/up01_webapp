@@ -15,6 +15,7 @@ namespace SampleApp.Pages
 
         public User CurrentUser { get; set; }
         public User ProfileUser { get; set; }
+        public bool IsFollow { get; set; }
 
         public ProfileModel(SampleAppContext context, IFlasher f, ILogger<EditModel> log)
         {
@@ -23,14 +24,25 @@ namespace SampleApp.Pages
             _log = log;
         }
 
-        public async Task<IActionResult> OnGetAsync([FromRoute] int? id)
+         public async Task<IActionResult> OnGetAsync([FromRoute]int? id)
+        {
+            var sessionId = HttpContext.Session.GetString("SampleSession");
+            ProfileUser = await _context.Users.Include(u => u.Microposts).FirstOrDefaultAsync(m => m.Id == id) as User;   
+            CurrentUser = await _context.Users.Include(u => u.Microposts).FirstOrDefaultAsync(m => m.Id.ToString() == sessionId) as User;
 
-         {
+            // если текущий пользователь подписан на профиль пользователя
+            var result = _context.Relations.Where(r => r.Follower == CurrentUser  && r.Followed == ProfileUser).FirstOrDefault();
 
-           ProfileUser = await _context.Users.FirstOrDefaultAsync(m => m.Id == id);
-           var sessionId = HttpContext.Session.GetString("SampleSession");
-           CurrentUser = await _context.Users.FirstOrDefaultAsync(m => m.Id == Convert.ToInt32(sessionId));
-           return Page();
-         }
+            if (result != null) 
+            {
+              IsFollow = true;
+            }
+            else 
+            {
+              IsFollow =false;
+            }
+
+            return Page();
+        }
     }
 }

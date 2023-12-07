@@ -6,11 +6,65 @@
     var sessionId = HttpContext.Session.GetString("SampleSession");
     SampleAppContext _db = new SampleAppContext();
     User current_user = _db.Users.Where(u => u.Id == Convert.ToInt32(sessionId)).FirstOrDefault();
-    int profile_user; 
+    //int profile_userId = Model.ProfileUser.Id;
 }
+
+
+
 
 <div class="col-md-5">
     <h1>
         @Model.ProfileUser.Name
+
+        Сообщения @Model.ProfileUser.Microposts.Count();
     </h1>
+    @{
+        if(sessionId != null)
+        {
+            if (Model.ProfileUser.Id == current_user.Id)
+            {
+                    <aside>
+                        <section class="micropost_form">
+                            <form action="" method="POST" class="form-signin" role="form">
+                                <textarea rows="4" cols="50" type="text" name="message" required autofocus></textarea>
+                                <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Отправить</button>
+                            </form>
+                        </section>
+                    </aside>
+            }
+            else
+            {
+                    <div class="col-md-8">
+                        <h3>
+                            Cообщения @Model.ProfileUser.Microposts.Count()
+                        </h3>
+                        <ol class="microposts">
+                            @foreach (var post in Model.ProfileUser.Microposts)
+                        {
+                                <p>
+                                    <b>@post.User.Name: </b> @post.Content
+                                </p>
+                        }
+                        </ol>
+                    </div>
+            }
+        }
+        else
+        {
+                <div class="col-md-8">
+                    <h3>
+                        Cообщения @Model.ProfileUser.Microposts.Count()
+                    </h3>
+                    <ol class="microposts">
+                        @foreach (var post in Model.ProfileUser.Microposts)
+                    {
+                            <p>
+                                <b>@post.User.Name: </b> @post.Content
+                            </p>
+                    }
+                    </ol>
+                </div>
+        }
+    } 
+    
 </div>
