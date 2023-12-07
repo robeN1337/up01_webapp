@@ -36,7 +36,11 @@ namespace SampleApp.Pages
             {
                 return NotFound();
             }
-            return Page();
+            else
+            {
+                return Page();
+            }
+            
         }
 
         public async Task<IActionResult> OnPostAsync()
