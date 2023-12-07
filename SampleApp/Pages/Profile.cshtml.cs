@@ -24,7 +24,7 @@ namespace SampleApp.Pages
             _log = log;
         }
 
-         public async Task<IActionResult> OnGetAsync([FromRoute]int? id)
+        public async Task<IActionResult> OnGetAsync([FromRoute]int? id)
         {
             var sessionId = HttpContext.Session.GetString("SampleSession");
             ProfileUser = await _context.Users.Include(u => u.Microposts).FirstOrDefaultAsync(m => m.Id == id) as User;   
@@ -43,6 +43,43 @@ namespace SampleApp.Pages
             }
 
             return Page();
+        }
+        public async Task<IActionResult> OnPostAsync(string message)
+        {
+            var sessionId = HttpContext.Session.GetString("SampleSession");
+            CurrentUser = await _context.Users.Include(u => u.Microposts).FirstOrDefaultAsync(m => m.Id == Convert.ToInt32(sessionId));
+
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                var m = new Micropost()
+                {
+                    Content = message,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow,
+                    UserId = CurrentUser.Id,
+                    //User = this.User
+                };
+
+                try
+                {
+                    _context.Microposts.Add(m);
+                    _context.SaveChanges();
+                    _f.Flash(Types.Success, $"Tweet!", dismissable: true);
+                    return RedirectToPage();
+                }
+                catch (Exception ex)
+                {
+                    _log.Log(LogLevel.Error, $"Ошибка создания сообщения: {ex.InnerException.Message}");
+                }
+
+
+                return Page();
+            }
+            else
+            {
+                return Page();
+            }
+
         }
     }
 }
