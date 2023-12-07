@@ -11,18 +11,11 @@
         <nav>
             <ul class="nav navbar-nav navbar-right"> 
                 @{
-
+                    <li><a href="/Users">Пользователи</a></li>
                     if (sessionId != null)
                     {
                         User current_user = _db.Users.Where(u => u.Id == Convert.ToInt32(sessionId)).FirstOrDefault();
-                        if (current_user.IsAdmin == false)
-                        {
-                            <li></li>
-                        }
-                        else
-                        {
-                            <li><a href="/Users">Пользователи</a></li>
-                        }
+                            
                         <li class="dropdown">
                             <a href="Profile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 
@@ -30,11 +23,13 @@
                             {<span> (ADMIN) @current_user.Name </span>} 
                             else { @current_user.Name }
                             
-                            <span class="caret"></span> </a>
+                            <span class="caret"></span> 
+                            
+                            </a>
 
                             <ul class="dropdown-menu">
 
-                                <li><a href="#">Профиль</a></li>
+                                <li><a href="/Profile">Профиль</a></li>
                                 <li><a href="#">Обновление</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a asp-page="/Auth" asp-page-handler="Logout">Выход</a></li>
