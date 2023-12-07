@@ -1,3 +1,4 @@
+using Core.Flash;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -8,10 +9,15 @@ namespace SampleApp.Pages
     public class UsersModel : PageModel
     {
 
-        private readonly SampleAppContext _db;
-        public UsersModel(SampleAppContext db)
+        private readonly SampleAppContext _context;
+        private readonly IFlasher _f;
+        private readonly ILogger<UsersModel> _log;
+
+        public UsersModel(SampleAppContext context, IFlasher f, ILogger<UsersModel> log)
         {
-            _db = db;
+            _context = context;
+            _f = f;
+            _log = log;
         }
 
         public IList<User> Users { get; set; }
@@ -21,7 +27,25 @@ namespace SampleApp.Pages
         public async Task<IActionResult> OnGetAsync()
         {
 
-            Users = await _db.Users.ToListAsync();
+            Users = await _context.Users.ToListAsync();
+            return Page();
+        }
+
+        public async Task<IActionResult> OnGetRemoveAsync([FromQuery] int id)
+        {
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+                _context.Users.Remove(user);
+                _context.SaveChanges();
+                _f.Flash(Types.Success, $"Пользователь {user.Id} успешно удалён!", dismissable: true);
+                return RedirectToPage();
+            }
+            catch (Exception ex)
+            {
+                _log.LogError($"{ex.Message}");
+                
+            }
             return Page();
         }
 

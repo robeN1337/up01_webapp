@@ -11,11 +11,12 @@
         <nav>
             <ul class="nav navbar-nav navbar-right"> 
                 @{
-                    <li><a href="/Users">Пользователи</a></li>
+
                     if (sessionId != null)
                     {
                         User current_user = _db.Users.Where(u => u.Id == Convert.ToInt32(sessionId)).FirstOrDefault();
-                            
+                            <li><a href="/Users">Пользователи</a></li>
+
                         <li class="dropdown">
                             <a href="Profile" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 
@@ -29,7 +30,7 @@
 
                             <ul class="dropdown-menu">
 
-                                <li><a href="/Profile">Профиль</a></li>
+                                <li><a asp-page="/Profile" asp-route-id=@current_user.Id>Профиль</a></li>
                                 <li><a href="#">Обновление</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a asp-page="/Auth" asp-page-handler="Logout">Выход</a></li>
