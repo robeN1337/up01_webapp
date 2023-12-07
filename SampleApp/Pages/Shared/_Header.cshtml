@@ -31,7 +31,7 @@
                             <ul class="dropdown-menu">
 
                                 <li><a asp-page="/Profile" asp-route-id=@current_user.Id>Профиль</a></li>
-                                <li><a href="#">Обновление</a></li>
+                                <li><a asp-page="/Edit" asp-route-id="@current_user.Id">Обновление</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><a asp-page="/Auth" asp-page-handler="Logout">Выход</a></li>
 
