@@ -22,9 +22,37 @@
         {
             <h1 class="display-4">Добро пожаловать, @current_user.Name!</h1>
             //<a class="btn btn-lg btn-warning" asp-page="/Auth" asp-page-handler="Logout">Выйти</a>
-            <p></p>
+            if (Model.CurrentUser.Id == current_user.Id)
+            {
+                <aside>
+                    <section class="micropost_form">
+                        <form action="" method="POST" class="form-signin" role="form">
+                            <textarea rows="4" cols="50" type="text" name="message" required autofocus></textarea>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Отправить</button>
+                        </form>
+                    </section>
+                </aside>
+            }
+            else
+            {
+                <div class="col-md-8">
+                    <h3>
+                        Cообщения @Model.ProfileUser.Microposts.Count()
+                    </h3>
+                    <ol class="microposts">
+                        @foreach (var post in Model.ProfileUser.Microposts)
+                        {
+                            <p>
+                                <b>@post.User.Name: </b> @post.Content
+                            </p>
+                        }
+                    </ol>
+                </div>
+            }
         }
-    }
+      }
+        
+            <p></p>
     
     
 </div>
