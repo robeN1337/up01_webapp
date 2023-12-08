@@ -11,77 +11,75 @@
 
 <div class="text-center">
     
-    @{
+@{
         
-        if(sessionId == null)
-        {
-            <h1 class="display-4">Добро пожаловать, анон!</h1>
-            <a class="btn btn-lg btn-primary" href="/Sign">Регистрация</a>
-            <p></p>
-            <div class="col-md-5">
-                <h3>
-                    Cообщения: @_db.Microposts.Count()
-                </h3>
-                <ul class="microposts">
-                    @foreach (var post in _db.Microposts)
-                    {
-                        <li role="separator" class="divider"></li>
-                        <b>User ID: </b> @post.UserId
-                        <p>
-                            <b>Date: </b> @post.CreatedAt
-                        </p>
-                        <b>Message: </b> @post.Content
-                        <li role="separator" class="divider"></li>
+    if(sessionId == null)
+    {
+        <h1 class="display-4">Добро пожаловать, анон!</h1>
+        <a class="btn btn-lg btn-primary" href="/Sign">Регистрация</a>
+        <p></p>
+        <div class="col-md-5">
+            <h3>
+                Cообщения: @_db.Microposts.Count()
+            </h3>
+            <ul class="microposts">
+                @foreach (var post in _db.Microposts)
+                {
+                    <li role="separator" class="divider"></li>
+                    <b>User ID: </b> @post.UserId
+                    <p>
+                        <b>Date: </b> @post.CreatedAt
+                    </p>
+                    <b>Message: </b> @post.Content
+                    <li role="separator" class="divider"></li>
 
-                    }
-                </ul>
-            </div>
-        }
-        else
-        {
-            <h1 class="display-3">Добро пожаловать, @current_user.Name!</h1>
-            //<a class="btn btn-lg btn-warning" asp-page="/Auth" asp-page-handler="Logout">Выйти</a>
-            if (Model.CurrentUser.Id == current_user.Id)
-            {   
-                <aside>
-                    <section class="micropost_form">
-                        <form action="" method="POST" class="form-signin" role="form">
-                            <textarea rows="4" cols="10" type="text" name="message" required autofocus></textarea>
-                            <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Отправить</button>
-                        </form>
-                    </section>
-                </aside>
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <h1 class="display-3">Добро пожаловать, @current_user.Name!</h1>
+        //<a class="btn btn-lg btn-warning" asp-page="/Auth" asp-page-handler="Logout">Выйти</a>
+        if (Model.CurrentUser.Id == current_user.Id)
+        {   
+            <aside>
+                <section class="micropost_form">
+                    <form action="" method="POST" class="form-signin" role="form">
+                        <textarea rows="4" cols="10" type="text" name="message" required autofocus></textarea>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Отправить</button>
+                    </form>
+                </section>
+            </aside>
                 
-                    <div class="col-md-10">
-                        <h3 class="display-5">
-                            Cообщения: @_db.Microposts.Count()
-                        </h3>
-                        <ul class="microposts">
-                            @foreach (var post in _db.Microposts)
+                <div class="col-md-10">
+                    <h3 class="display-5">
+                        Cообщения: @_db.Microposts.Count()
+                    </h3>
+                    <ul class="microposts">
+                        @foreach (var post in _db.Microposts)
+                        {
+                            <li role="separator" class="divider"></li>
+                            <b>User ID: </b> @post.UserId
+                            <p>
+                                <b>Date: </b> @post.CreatedAt
+                            </p>
+                            <b>Message: </b> @post.Content
+                            if(current_user.Id == post.UserId || current_user.IsAdmin == true)
                             {
-                                <li role="separator" class="divider"></li>
-                                <b>User ID: </b> @post.UserId
-                                <p>
-                                    <b>Date: </b> @post.CreatedAt
-                                </p>
-                                <b>Message: </b> @post.Content
-                                if(current_user.Id == post.UserId || current_user.IsAdmin == true)
-                                {
-                                <a asp-page="Index" asp-page-handler="Delete" asp-route-id="@post.UserId" asp-route-messageid="@post.Id" class="btn btn-info">Удалить</a>
-                                }
-                                <li role="separator" class="divider"></li>
-
+                            <a asp-page="Index" asp-page-handler="Delete" asp-route-id="@post.UserId" asp-route-messageid="@post.Id" class="btn btn-info">Удалить</a>
                             }
-                        </ul>
-                    </div>
-                
-                
-            }
-            
+                            <li role="separator" class="divider"></li>
+                        }
+                    </ul>
+                </div>
+
         }
-      }
+         
+    }
+}
         
-            <p></p>
+    <p></p>
     
     
 </div>
