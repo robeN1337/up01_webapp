@@ -51,8 +51,7 @@
                         </form>
                     </section>
                 </aside>
-                if (current_user.IsAdmin == true)
-                {
+                
                     <div class="col-md-10">
                         <h3 class="display-5">
                             Cообщения: @_db.Microposts.Count()
@@ -66,57 +65,19 @@
                                     <b>Date: </b> @post.CreatedAt
                                 </p>
                                 <b>Message: </b> @post.Content
+                                if(current_user.Id == post.UserId || current_user.IsAdmin == true)
+                                {
                                 <a asp-page="Index" asp-page-handler="Delete" asp-route-id="@post.UserId" asp-route-messageid="@post.Id" class="btn btn-info">Удалить</a>
+                                }
                                 <li role="separator" class="divider"></li>
 
                             }
                         </ul>
                     </div>
-                }
-                else
-                {
-                    <div class="col-md-10">
-                        <h3 class="display-5">
-                            Cообщения: @_db.Microposts.Count()
-                        </h3>
-                        <ul class="microposts">
-                            @foreach (var post in _db.Microposts)
-                            {
-                                <li role="separator" class="divider"></li>
-                                <b>User ID: </b> @post.UserId
-                                <p>
-                                    <b>Date: </b> @post.CreatedAt
-                                </p>
-                                <b>Message: </b> @post.Content
-                                <li role="separator" class="divider"></li>
-
-                            }
-                        </ul>
-                    </div>
-                }
+                
                 
             }
-            else
-            {
-                <div class="col-md-10">
-                    <h3>
-                        Cообщения: @_db.Microposts.Count()
-                    </h3>
-                    <ul class="microposts">
-                        @foreach (var post in _db.Microposts)
-                        {
-                            <li role="separator" class="divider"></li>
-                            <b>User ID: </b> @post.UserId
-                            <p>
-                                <b>Date: </b> @post.CreatedAt
-                            </p>
-                            <b>Message: </b> @post.Content
-                            <li role="separator" class="divider"></li>
-                            
-                        }
-                    </ul>
-                </div>
-            }
+            
         }
       }
         
