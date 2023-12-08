@@ -9,50 +9,52 @@
     User current_user = _db.Users.Where(u => u.Id == Convert.ToInt32(sessionId)).FirstOrDefault();
 }
 
-        <h2>Пользователи</h2>
+<h1>Пользователи</h1>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Users[0].Name)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model.Users)
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Users[0].Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+                    
+            <tr>
+                <td>
+                    <a class="btn btn-lg btn-danger" asp-page="/Profile" asp-route-id="@user.Id">@user.Name</a>
+                </td>
+                <td>
+                    
+                @if(sessionId != null && current_user.IsAdmin)
+                        
+                {
+      
+                    @if (user.Id != current_user.Id)
+                    {
+                        <a class="btn btn-danger" asp-page="Users" asp-page-handler="Remove" asp-route-id="@user.Id">Удалить</a>
+                    }
+                    else
+                    {
+                        <p> Это вы! </p>
+                    }
+
+                }
+                
+                else if(current_user.IsAdmin == false && user.Id == current_user.Id)
                 {
                     
-                    <tr>
-                        <td>
-                            <a class="btn btn-lg btn-danger" asp-page="/Profile" asp-route-id="@user.Id">@user.Name</a>
-                        </td>
-                        
-                        @if(sessionId != null && current_user.IsAdmin)
-                        
-                        {
-                        
-                            <td>
-                            
-                            @if (user.Id != current_user.Id)
-                                {
-                                    <a class="btn btn-danger" asp-page="Users" asp-page-handler="Remove" asp-route-id="@user.Id">Удалить</a>
-                                }
-                                else
-                                {
-                                    <p> Это вы! </p>
-                                }
-                        
-                            </td>
-                        }
-                        else if (user.Id != current_user.Id)
-                        {
-                                   <p> Это вы! </p>
-                        }
-                        
-                    </tr>
+                    <p>Это вы!</p>
+                    
                 }
-            </tbody>
-        </table>
+                </td>
+                        
+            </tr>
+        }
+    </tbody>
+</table>
 
 

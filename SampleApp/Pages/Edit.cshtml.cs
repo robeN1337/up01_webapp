@@ -2,6 +2,7 @@ using Core.Flash;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SampleApp.Application;
 using SampleApp.Models;
 
 namespace SampleApp.Pages
@@ -43,10 +44,19 @@ namespace SampleApp.Pages
             
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(User user)
         {
 
             _context.Attach(User).State = EntityState.Modified;
+
+
+            if (!user.IsPasswordConfirmation())
+            {
+                _log.LogWarning($"Пароли должны совпадать!");
+                _f.Flash(Types.Danger, "При редактировании пользователя возникла ошибка: пароли должны совпадать!", dismissable: true);
+                return Page();
+            }
+
 
             try
             {
