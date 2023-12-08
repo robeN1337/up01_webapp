@@ -14,7 +14,7 @@
 
 <div class="col-md-4">
     <h1>
-        @Model.ProfileUser.Name
+        <center>@Model.ProfileUser.Name</center>
     </h1>
  
     @{
@@ -22,23 +22,27 @@
         {
             if (Model.ProfileUser.Id == current_user.Id)
             {
-                    <p>тута свои сообщения,подписки и подписчики,кнопка подписаться(если на своём профиле - то без кнопки подписаться)</p>
+             //       <p>тута свои сообщения,подписки и подписчики,кнопка подписаться(если на своём профиле - то без кнопки подписаться)</p>
+                <div class="col-md-50">
+                    <h3>
+                        Cообщения: @Model.ProfileUser.Microposts.Count()
+                    </h3>
+                    <ol class="microposts">
+                        @foreach (var post in Model.ProfileUser.Microposts)
+                        {
+                            <p>
+                                <b>@post.CreatedAt </b>
+                            </p>
+                            <p>
+                                <b>@post.User.Name: </b> @post.Content
+                            </p>
+                        }
+                    </ol>
+                </div>
             }
             else
             {
-                    <div class="col-md-8">
-                        <h3>
-                            Cообщения @Model.ProfileUser.Microposts.Count()
-                        </h3>
-                        <ol class="microposts">
-                            @foreach (var post in Model.ProfileUser.Microposts)
-                        {
-                                <p>
-                                    <b>@post.User.Name: </b> @post.Content
-                                </p>
-                        }
-                        </ol>
-                    </div>
+                    
             }
         }
         else

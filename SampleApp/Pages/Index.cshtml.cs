@@ -26,7 +26,6 @@ namespace SampleApp.Pages
         public async Task<IActionResult> OnGetAsync([FromRoute] int? id)
         {
             var sessionId = HttpContext.Session.GetString("SampleSession");
-            ProfileUser = await _context.Users.Include(u => u.Microposts).FirstOrDefaultAsync(m => m.Id == id) as User;
             CurrentUser = await _context.Users.Include(u => u.Microposts).FirstOrDefaultAsync(m => m.Id.ToString() == sessionId) as User;
 
             // если текущий пользователь подписан на профиль пользователя
@@ -78,6 +77,28 @@ namespace SampleApp.Pages
             {
                 return Page();
             }
+
+        }
+        public async Task<IActionResult> OnGetDeleteAsync([FromQuery] int messageid)
+        {
+            var sessionId = HttpContext.Session.GetString("SampleSession");
+            CurrentUser = await _context.Users.Include(u => u.Microposts).FirstOrDefaultAsync(m => m.Id == Convert.ToInt32(sessionId));
+
+            try
+            {
+                Micropost m = _context.Microposts.Find(messageid);
+                _context.Microposts.Remove(m);
+                _context.SaveChanges();
+                _log.Log(LogLevel.Error, $"Удалено сообщение \"{m.Content}\" пользователя {CurrentUser.Name}!");
+                return RedirectToPage();
+            }
+            catch (Exception ex)
+            {
+                _log.Log(LogLevel.Error, $"Ошибка удаления сообщения: {ex.InnerException}");
+                _log.Log(LogLevel.Error, $"Модель привязки из маршрута: {messageid}");
+            }
+
+            return Page();
 
         }
     }
